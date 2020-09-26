@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class InsertSort {
+public class SelectSort {
     private static void sort(int [] list){
 
         for(int i=list.length-1;i>=0;i--){ //比如有十个，就先从前十个选出最大的放到最后面；然后从前九个选出最大的放到最后面。。。i是指最后一个元素的index
