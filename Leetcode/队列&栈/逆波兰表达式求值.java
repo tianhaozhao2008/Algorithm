@@ -1,5 +1,50 @@
 class Solution {
 
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        for(String x:tokens){
+            if(x=="+"){
+                int a = stack.pop();
+                int b = stack.pop();
+                stack.push(a+b);
+            }
+            else if(x=="-"){
+                int a = stack.pop();
+                int b = stack.pop();
+                stack.push(b-a);
+            }
+            else if(x=="*"){
+                int a = stack.pop();
+                int b = stack.pop();
+                stack.push(a*b);
+            }            
+            else if(x=="/"){
+                int a = stack.pop();
+                int b = stack.pop();
+                stack.push(b/a);
+            }
+            else{
+                stack.push(Integer.valueOf(x));
+            }
+        }
+        return stack.pop();
+    }  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+
     public static int evalRPN(String[] tokens) {
         Stack<String> stack = new Stack<>();
         Set<String> hashset = new HashSet<>(){{
