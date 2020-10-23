@@ -18,6 +18,8 @@
 输入：head = [1]
 输出：[1]
 
+提示：链表中节点的数目在范围 [0, 100] 内,所以加了一堆基本结束条件判断是不是空节点。
+0 <= Node.val <= 100
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -31,6 +33,12 @@
  
 class Solution {
     public ListNode swapPairs(ListNode head) {
+        if(head==null){
+            return head;
+        }
+        if(head.next==null){
+            return head;
+        }
         if(head.next.next==null){
             ListNode returnResult = head.next;
             head.next.next=head;
