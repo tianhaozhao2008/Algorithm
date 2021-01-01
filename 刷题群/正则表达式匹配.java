@@ -47,3 +47,52 @@ class Solution {
     }
 }
 
+
+如下是递归的版本：暂时没有弄备忘录（备忘录的格式不太会弄，语法层面的，做到前面的题时再看看）
+（我这个递归是正常的，看很多题解的递归顺序是从字符串头部开始的，很奇怪，不看他们的了）
+class Solution {
+    public static void main(String[] args) {
+        Solution result = new Solution();
+        boolean output = result.isMatch("a","aa",1,2);
+        System.out.println(output);
+    }
+    public boolean isMatch(String s, String p, int m, int n) { //求字符串的第m、n个元素
+        //int m = s.length();
+        // int n = p.length();
+        if(m==0 && n==0){
+            return true;
+        }
+        if(n==0 && m!=0){
+            return false;
+        }
+
+        if (p.charAt(n - 1) == '*') {
+            if (matches(s, p, m, n - 1)) {
+                return isMatch(s, p, m - 1, n) || isMatch(s, p, m, n - 2);
+            } 
+            else {
+                return isMatch(s, p, m, n - 2);
+            }
+        } 
+        else {
+            if (matches(s, p, m, n)) {
+                return isMatch(s, p, m - 1, n - 1);
+            } 
+            else {
+                return false;
+            }
+        }
+    }
+    
+    public boolean matches (String s, String p,int i, int j){
+        if(i==0){
+            return false;
+        }
+        if (p.charAt(j - 1) == '.') {
+            return true;
+        }
+        return s.charAt(i - 1) == p.charAt(j - 1);
+    }
+}
+
+
