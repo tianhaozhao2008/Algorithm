@@ -48,17 +48,20 @@ class Solution {
 }
 
 
-如下是递归的版本：暂时没有弄备忘录（备忘录的格式不太会弄，语法层面的，做到前面的题时再看看）
+如下是递归的版本：一开始弄备忘录的时候，我是在main方法里初始化的数组，然后直接在另外那个方法里调用，发现用不了：
+后来看其他的递归的题，发现是要在main方法里调用其它方法，把那个数组作为其他方法的参数传递过去，才可以用。。
 （我这个递归是正常的，看很多题解的递归顺序是从字符串头部开始的，很奇怪，不看他们的了）
 class Solution {
     public static void main(String[] args) {
         Solution result = new Solution();
-        boolean output = result.isMatch("a","aa",1,2);
+        int [][] dict = new int[5][4];
+        boolean output = result.isMatch(dict,"aaab","a*b",4,3);
         System.out.println(output);
     }
-    public boolean isMatch(String s, String p, int m, int n) { //求字符串的第m、n个元素
-        //int m = s.length();
-        // int n = p.length();
+    public boolean isMatch(int [][] dict,String s, String p, int m, int n) { //求字符串的第m、n个元素
+        if(dict[m][n]!=0){
+            return dict[m][n] == 1;
+        }
         if(m==0 && n==0){
             return true;
         }
@@ -68,22 +71,44 @@ class Solution {
 
         if (p.charAt(n - 1) == '*') {
             if (matches(s, p, m, n - 1)) {
-                return isMatch(s, p, m - 1, n) || isMatch(s, p, m, n - 2);
-            } 
-            else {
-                return isMatch(s, p, m, n - 2);
+                boolean answer=isMatch(dict,s, p, m - 1, n) || isMatch(dict,s, p, m, n - 2);
+                if(answer){
+                    dict[m][n]=1;
+                }
+                else{
+                    dict[m][n]=2;
+                }
+                return answer;
             }
-        } 
+            else {
+                boolean answer=isMatch(dict,s, p, m, n - 2);
+                if(answer){
+                    dict[m][n]=1;
+                }
+                else{
+                    dict[m][n]=2;
+                }
+                return answer;
+            }
+        }
         else {
             if (matches(s, p, m, n)) {
-                return isMatch(s, p, m - 1, n - 1);
-            } 
+                boolean answer= isMatch(dict,s, p, m - 1, n - 1);
+                if(answer){
+                    dict[m][n]=1;
+                }
+                else{
+                    dict[m][n]=2;
+                }
+                return answer;
+            }
             else {
+                dict[m][n]=2;
                 return false;
             }
         }
     }
-    
+
     public boolean matches (String s, String p,int i, int j){
         if(i==0){
             return false;
