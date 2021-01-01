@@ -9,24 +9,24 @@
 
 class Solution {
     public boolean isMatch(String s, String p) {
-        int m = s.length(); 
+        int m = s.length();
         int n = p.length();
 
         boolean[][] f = new boolean[m + 1][n + 1];//实际多出来的[0]号位置用于填true。边界。
         f[0][0] = true;
-		//边界条件：i！=0、j=0时肯定是false；而i=0时有可能是true比如j是a*时，所以要考虑i=0
-		//这块边界很容易出错，所以先根据直觉写一个，然后带入几个特殊的简单实例测试一下。
+        //边界条件：i！=0、j=0时肯定是false；而i=0时有可能是true比如j是a*时，所以要考虑i=0
+        //这块边界很容易出错，所以先根据直觉写一个，然后带入几个特殊的简单实例测试一下。
         for (int i = 0; i <= m; i++) { //i和j代表字符串的第i 、j个元素
             for (int j = 1; j <= n; j++) {
                 if (p.charAt(j-1) == '*') { //如果第j个元素是* （注意对应的下标是j-1）
                     if (matches(s, p, i, j - 1)) { //则看第j-1个元素是否匹配
                         f[i][j] = f[i][j-2] || f[i - 1][j];
                     }
-					else{
-						f[i][j] = f[i][j-2]
-					}
-                } 
-				else {
+                    else{
+                        f[i][j] = f[i][j-2]
+                    }
+                }
+                else {
                     if (matches(s, p, i, j)) { //字符串的第i个和第j个是否匹配
                         f[i][j] = f[i - 1][j - 1];
                     }
@@ -38,9 +38,12 @@ class Solution {
 
     public boolean matches(String s, String p, int i, int j) {
         if (i==0){ //之前考虑了i=0的情况，所以这里也补上（这是测试示例时发现的。。）
-			return false;
-		}
-		if (p.charAt(j-1) == '.') {
+            return false;
+        }
+        if (p.charAt(j-1) == '.') {
             return true;
         }
         return s.charAt(i-1) == p.charAt(j-1);
+    }
+}
+
