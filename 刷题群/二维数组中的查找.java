@@ -26,3 +26,30 @@
 随便选一个位置，向右或向下走，会变大；向左或向上走，会变小。
 所以解法就是从右上角开始（左下角开始也可以）：如果N比这个位置的数大，就向下走，否则就向左走。
 复杂度是m+n的。。
+class Solution {
+    public boolean findNumberIn2DArray(int[][] matrix, int target) {
+        if(matrix.length==0 || matrix[0].length==0){
+            return false;
+        }
+        int high=matrix.length-1;
+        int wide=0;
+        int answer=matrix[high][wide];
+        while(answer!=target){
+            if(answer>target){
+                if(high==0){
+                    return false;
+                }
+                high--;
+                answer=matrix[high][wide];
+            }
+            else{
+                if(wide==matrix[0].length-1){
+                    return false;
+                }
+                wide++;
+                answer=matrix[high][wide];
+            }
+        }
+        return true;
+    }
+}
