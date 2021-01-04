@@ -50,7 +50,45 @@ class Solution {
     }
 }
 
-递归的版本：
-
+递归的版本：对于二分查找，以后都用递归吧，递归感觉很虚浮。
+class Solution {
+    int[]numbers;
+    int startValue;
+    public int minArray(int[] numbers) {
+        this.numbers=numbers;
+        startValue=numbers[0];
+        if(numbers[0]<numbers[numbers.length-1]){  //特殊情况，就是数组没反转，就是从小到大
+            return numbers[0]; 
+        }
+        return findMin(0,numbers.length-1);
+    }
+    int findMin(int left,int right){
+        if(right-left<=1){  //基本结束条件
+            if(numbers[left]<numbers[right]){
+                return numbers[left];
+            }
+            else{
+                return numbers[right];
+            }
+        }
+        int mid=(left+right)/2;
+        if(numbers[0]>numbers[mid]){
+            return findMin(left,mid);
+        }
+        else if(numbers[0]<numbers[mid]){
+            return findMin(mid,right);
+        }
+        else{ //此时是numbers[0]==numbers[mid]，因此不确定最小值在左边还是右边。
+            int result1=findMin(left,mid);
+            int result2=findMin(mid,right);
+            if(result1<result2){
+                return result1;
+            }
+            else{
+                return result2;
+            }
+        }
+    }
+}
 
 
