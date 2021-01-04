@@ -68,6 +68,38 @@ class Solution {
         return -1;
     }
 }
-   
+
+再次改进：看了题解发现没人这么2b直接用原始带数组参数的方法做递归，都是再新建一个做递归的方法，这样就不用拆分数组了。
+新的方法传进的参数就是两个数组的起始下标即可，然后在类的成员变量中声明一开始的那两个数组，查找下标的话做成哈希映射（因为元素不重复）。
+class Solution {
+    int[] preorder;
+    int[] inorder;
+    Map<Integer,Integer> dict=new HashMap<>();
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        this.preorder=preorder;
+        this.inorder=inorder;
+        for(int i=0;i<inorder.length;i++){
+            dict.put(inorder[i],i);
+        }
+        if(preorder.length==0){
+            return null;
+        }
+        return makeTree(0,preorder.length-1,0,inorder.length-1);
+    }
+
+    TreeNode makeTree(int m,int n,int i,int j){   //mn是该树在preorder数组中的下标范围，ij是该树在inorder数组中的下标范围
+        int headValue = preorder[m];
+        TreeNode head = new TreeNode(headValue);
+        int x = dict.get(headValue);   //x是preorder数组头部元素所在inorder数组中的位置下标
+        if(m+1<=m+x-i && i<=x-1){
+            head.left=makeTree(m+1,m+x-i,i,x-1);
+        }
+        if(m+x-i+1<=n && x+1<=j){
+            head.right=makeTree(m+x-i+1,n,x+1,j);
+        }
+        return head;
+    }
+}
    
    
