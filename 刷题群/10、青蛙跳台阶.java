@@ -17,3 +17,22 @@
 4.空间复杂度优化的动态规划：
 原理：就是原先是填写n个长度的表，但发现每填写的元素只与它的前两个元素有关，所以只需要保存a,b,sum三个数即可。空间复杂度优化成O(1)。
 
+后来直接写的动态规划优化：
+class Solution {
+    public int numWays(int n) {
+        if(n==0){
+            return 1;
+        }
+        if(n<3){
+            return n;
+        }
+        int a=1;
+        int b=2;
+        for(int i=3;i<=n;i++){
+            int c=b;
+            b=(a+b)%1000000007;
+            a=c;
+        }
+        return b;
+    }
+}
