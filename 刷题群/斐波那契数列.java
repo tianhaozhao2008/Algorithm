@@ -33,3 +33,36 @@ class Solution {
         return answer;
     }
 }
+
+动态规划：
+class Solution {
+    public int fib(int n) {
+        if(n<2){
+            return n;
+        }
+        int[]dp=new int[n+1];
+        dp[0]=0;
+        dp[1]=1;
+        for(int i=2;i<dp.length;i++){
+            dp[i]=(dp[i-1]+dp[i-2])%1000000007;
+        }
+        return dp[n];
+    }
+}
+
+动态规划优化：只需要前两个记录值即可，相当于之前的dp数组一直滚动（所以也叫滚动数组）。
+class Solution {
+    public int fib(int n) {
+        if(n<2){
+            return n;
+        }
+        int a =0;
+        int b =1;
+        for(int i=2;i<=n;i++){
+            int c=b; //开始滚动。原来的a变成b，原来的b变成新的值
+            b=(a+b)%1000000007;
+            a=c;
+        }
+        return b;
+    }
+}
