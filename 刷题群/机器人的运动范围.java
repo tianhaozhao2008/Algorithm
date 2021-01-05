@@ -15,4 +15,31 @@
 输入：m = 3, n = 1, k = 0
 输出：1
 
-即用回溯算法：深度优先或广度优先来做。题解参考https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/solution/mian-shi-ti-13-ji-qi-ren-de-yun-dong-fan-wei-dfs-b/
+即用回溯算法：深度优先或广度优先来做。
+
+深度优先：
+class Solution {
+    int m,n,k;
+    int [][] resList;
+    public int movingCount(int m, int n, int k) {
+        this.m=m;this.n=n;this.k=k;
+        this.resList=new int[m][n];
+        dfs(0,0);
+        int sum=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                sum+=resList[i][j];
+            }
+        }
+        return sum;
+    }
+    void dfs(int i,int j){
+        if(i>=0&&i<=m-1&&j>=0&&j<=n-1&&i%10+i/10+j%10+j/10<=k&&resList[i][j]==0 ){
+            resList[i][j]=1;
+            dfs(i+1,j);
+            dfs(i-1,j);
+            dfs(i,j+1);
+            dfs(i,j-1);
+        }
+    }
+}
