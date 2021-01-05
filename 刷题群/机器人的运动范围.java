@@ -31,3 +31,35 @@ class Solution {
         }
     }
 }
+
+
+广度优先：就是用一个队列（不用递归了），先把第一个节点入队，然后每次出队，检查符合要求则把上下左右的节点入队，直到队列为空。
+不过这种广度优先似乎无法起到查找的功能，只能起到遍历的作用。
+class Solution {
+    public int movingCount(int m, int n, int k) {
+        int [][] res=new int[m][n];
+
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{0, 0});
+        while(queue.size()!=0){
+            int[] position=queue.poll();
+            int i=position[0];
+            int j=position[1];
+            if(i<0||i>=m||j<0||j>=n||i/10+i%10+j/10+j%10>k||res[i][j]==1){
+                continue;
+            }
+            res[i][j]=1;
+            queue.offer(new int[]{i+1,j});
+            queue.offer(new int[]{i-1,j});
+            queue.offer(new int[]{i,j+1});
+            queue.offer(new int[]{i,j-1});
+        }
+        int sum=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                sum+=res[i][j];
+            }
+        }
+        return sum;
+    }
+}
