@@ -15,6 +15,18 @@
 输出: 36
 解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36
 
-
-分治、动态规划。关键是找到状态转移函数（递推公式）。当时想了十几分钟没想到。
-后来看了答案，状态转移函数是求两种情况和上一种拆分 的max值。代码短短几行，十分的优雅！
+就是很简单的动态规划。写出状态转移方程（注意可以拆也可以不拆，别忘了考虑不拆的情况）
+class Solution {
+    public int cuttingRope(int n) {
+        int[]dp=new int[n+1];
+        dp[1]=1;dp[2]=1;
+        for(int i=3;i<=n;i++){
+            int sum=0;
+            for(int x=1;x<=i-2;x++){
+                sum=Math.max(sum,x*Math.max((i-x),dp[i-x]));
+            }
+            dp[i]=sum;
+        }
+        return dp[n];
+    }
+}
