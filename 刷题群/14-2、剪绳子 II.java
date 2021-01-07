@@ -41,7 +41,64 @@
 
 那么就用到取模运算的法则：(a * b) % p = (a % p * b % p) % p ，（这个取模在括号内随便拆，就如第32行写的那样）
 即可以每乘一次3都取一次模，最终的结果再取一次模，这样就不会越界了。
+（注意涉及到越界问题的，我们都换成long类型，即64位二进制。如果long与int类型做运算或比较，int类型就会自动填充成long的长度。可以通过(int)来把long变量转换成int)
+  class Solution {
+    public int cuttingRope(int n) {
+        if(n==2)return 1; //n=2和3时是特例。单独考虑
+        if(n==3) return 2;
+        int pow=n/3;   //次方
+        int rem=n%3;   //余数
+        int k=1;
+        if(rem==1){
+            pow--;
+            k=4;
+        }
+        else if(rem==2){
+            k=2;
+        }
+        //  int result=3^pow *k;
+        long result=1;
+        for(int i=1;i<=pow;i++){
+            result =(result*3)%1000000007;
+        }
+        result=(result*k)%1000000007;
+        return (int)result;
+    }
+}
 
 方法2的优化：如果是300次方，那么复杂度就是300.这里采用快速幂的方式来优化，比如3的300次方，每次都把指数缩小一半，然后让底数乘2.（相当于复杂度缩小一半再加1）
 注意快速幂的同时，结合上面的取模运算规律（从而使不越界的同时减低复杂度）。
 备注：取模运算规则和快速幂，参考https://blog.csdn.net/qq_19782019/article/details/85621386 以及题解。
+class Solution {
+    public int cuttingRope(int n) {
+        if(n==2)return 1; //n=2和3时是特例。单独考虑
+        if(n==3) return 2;
+        int pow=n/3;   //次方
+        int rem=n%3;   //余数
+        long k=1;
+        if(rem==1){
+            pow--;
+            k=4;
+        }
+        else if(rem==2){
+            k=2;
+        }
+        long base=3;
+        //  int result=base^pow *k;
+        //long result=1;
+        if(pow==0){  //特殊临界情况
+            return (int)k;
+        }
+        while(pow>=2){
+            if(pow%2==1){
+                pow--;
+                k=k*base%1000000007;
+            }
+            else{
+                pow=pow/2;
+                base=base*base%1000000007; //这里不能写成^2,否则是异或操作。
+            }
+        }
+        return (int)(base*k%1000000007);
+    }
+}
