@@ -19,4 +19,15 @@
 最开始想到的是把32位二进制转换成字符串再遍历字符串找1，这样时间复杂度不变，但是空间复杂度直接上升了很多。
 所以要用位运算，不断把n和1做与操作&，然后对n进行无符号右移>>>.重复即可。
 （区分>>是有符号右移，移动时会考虑32位数符号的正负，而无符号的话，直接无脑补零即可）
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int sum=0;
+        for(int i=1;i<=32;i++){
+            sum+=n&1;
+            n=n>>>1;
+        }
+        return sum;
+    }
+}
 
