@@ -10,6 +10,7 @@
 
 class Solution {
     public boolean isNumber(String s) {
+        //以下是状态0~8分别对应的9个哈希映射。（其中数字、符号等直接用一个简写字母表示，之后for循环字符串的时候判断该字符属于哪个简写）
         Map[] transStates = {
                 new HashMap<>() {{ put(' ', 0); put('s', 1); put('d', 2); put('.', 4); }}, // 0.
                 new HashMap<>() {{ put('d', 2); put('.', 4); }},                           // 1.
