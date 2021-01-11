@@ -5,6 +5,7 @@
 2.以后一般链表的题都直接加上哨兵节点，会避免一些麻烦的边界问题
 3.这题一开始while的条件那块弄错了导致bug。
 
+下面这个还可以改进一下就是当一个链表已经空了，就直接把另一个拼过来，就不用继续遍历了。
 class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode sentry=new ListNode(0); //哨兵节点
