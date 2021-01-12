@@ -83,6 +83,50 @@ class Solution {
 }
 
 方法2：官方方法，就是循环遍历。
+其实这个方法简单，就是循环，设置四个指针：起始行rowStart、终止行rowEnd、起始列colStart、终止列colEnd，然后依次遍历一行一列一行一列
+class Solution {
+    public int[] spiralOrder(int[][] matrix) {
+        if(matrix.length==0||matrix[0].length==0)return new int[]{};
+        int []res=new int[matrix.length*matrix[0].length];
+        int index=0;
+
+        int rowStart = 0;
+        int rowEnd = matrix.length - 1;
+        int colStart = 0;
+        int colEnd = matrix[0].length - 1;
+
+        while(true) {
+            for (int i = colStart; i <= colEnd; i++) {
+                res[index] = matrix[rowStart][i];
+                index++;
+            }
+            rowStart++;
+            if (rowStart > rowEnd) break;
+            
+            for (int i = rowStart; i <= rowEnd; i++) {
+                res[index] = matrix[i][colEnd];
+                index++;
+            }
+            colEnd--;
+            if(colEnd<colStart) break;
+            
+            for (int i = colEnd; i >= colStart; i--) {
+                res[index] = matrix[rowEnd][i];
+                index++;
+            }
+            rowEnd--;
+            if(rowEnd<rowStart) break;
+            
+            for (int i = rowEnd; i >= rowStart; i--) {
+                res[index] = matrix[i][colStart];
+                index++;
+            }
+            colStart++;
+            if(colStart>colEnd) break;
+        }
+    return res;
+    }
+}
 
 
 
