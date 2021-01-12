@@ -28,7 +28,8 @@ class Solution {
     注意区分StringBuilder类的toString方法，与String.valueOf这个静态方法（这个方法是其它不同类型转换的，比如把字符数组转换合并成字符串）
     
 2.想到用递归dfs来做，最高位for循环设成0~9，循环体内对下一位调用自身。。直到到达个位设置好后，把这个数加入StringBuilder。
-3.配合dfs递归，就用一个n位数的字符数组来做，对数组从0号的高位开始做递归。结束后把数组通过String.valueOf方法转换成字符串后加入StringBuilder后面
+3.配合dfs递归，就用一个n位数的字符数组来做，对数组从0号的高位开始做递归。结束后把数组通过String.valueOf方法转换成字符串后加入StringBuilder后面（注意只能转换char数组，
+不能是int 数组）
         （注意去掉那些0开头的，所以可先对数组循环找到非0开头的下标，然后用Arrays.copyOfRange方法截取成一个新的数组）
         
 class Solution {
