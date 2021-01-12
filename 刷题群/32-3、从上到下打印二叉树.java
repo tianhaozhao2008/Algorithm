@@ -43,4 +43,29 @@ class Solution {
 
 方法2：就是还是按照上一题做，只不过奇偶分离，奇数就逆转中间结果即可。 
 如果还是按照上一题那样用ArrayList的话，逆转就很慢因为底层是数组，但是看题解就很不讲武德：直接把ArrayList换成LinkedList，
-因为它们都实现了List接口，所以符合题意。我擦。
+因为它们都实现了List接口（多态），所以符合题意。我擦。 
+
+发现的问题是：声明LinkedList时的引用类型不同的话（如List或者LinkedList或者Deque），方法就不同，明天再看看
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(root==null)return res;
+        Queue<TreeNode> queue=new LinkedList<>();
+        queue.offer(root);
+        int tag=1;
+        while(queue.size()!=0){
+            int size= queue.size();
+            LinkedList<Integer>midRes=new LinkedList<>();
+            for(int i=1;i<=size;i++){
+                TreeNode node=queue.poll();
+                if(tag==1) midRes.add(node.val);
+                else midRes.addFirst(node.val);
+                if(node.left!=null) queue.offer(node.left);
+                if(node.right!=null) queue.offer(node.right);
+            }
+            res.add(midRes);
+            tag=-tag;
+        }
+        return res;
+    }
+}
