@@ -52,3 +52,5 @@ class Solution {
          temp.remove(temp.size()-1);
      }
 }
+
+然后是把ArrayList改成LinkedList比较好一些，因为ArrayList底层是数组，需要扩容（开辟一块更大的空间然后整体拷贝），LinkedList就不用。
