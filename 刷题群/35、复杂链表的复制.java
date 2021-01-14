@@ -58,7 +58,38 @@ class Solution {
     }
 }
 
+方法3：题解中的第二种做法，不需要用哈希表了，时间复杂度变成O（1），但是这种修改了原始链表了，我觉得不太建议用。
+就是
+1.先对原始列表每个节点之后都连接一份自己的拷贝，如原来的a-b-c变成a-a'-b-b'-c-c'
+2.根据上一个节点的random指针指向，填写下一个节点的random指针指向。（注意判断没有random指针的情况，防止null对象next时出bug）
+3.删掉原始的节点，留下新的节点
 
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head==null)return null;
+        Node cur=head;
+        //拷贝一份，即原先abc变成aa'bb'cc'
+        while(cur!=null){
+            Node tmp=cur.next;
+            cur.next=new Node(cur.val);
+            cur.next.next=tmp;
+            cur=tmp;
+        }
+        cur=head;
+        //根据前一个节点，做出拷贝的节点的random指针
+        while(cur!=null){
+            if(cur.random!=null) cur.next.random=cur.random.next;
+            cur=cur.next.next;
+        }
+        //删除原始的节点
+        cur=head.next;
+        while(cur.next!=null){
+            cur.next=cur.next.next;
+            cur=cur.next;
+        }
+        return head.next;
+    }
+}
 
 
 
