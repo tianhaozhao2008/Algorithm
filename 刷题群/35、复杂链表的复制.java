@@ -1,4 +1,19 @@
 这题就是深拷贝链表。
+发现一个严重的知识漏洞，比如深拷贝最普通的链表，我一开始是这么写的：
+如果这样写，就是先让res指向一个Node对象，然后让res指向res.next即让res指向空；然后第二轮循环又是让res指向一个新的Node对象，可见并没有建立指针。
+        while(root!=null){
+            res=new Node(root.val);
+            res=res.next;
+            root=root.next;
+        }
+正确写法应该这样写：你如果要建立指向下一个节点的指针，就要用引用类型的成员变量来赋值，而不能直接给引用类型赋值，
+        while(root!=null){
+            res.next=new Node(root.val);
+            res=res.next;
+            root=root.next;
+        }
+
+
 
 方法1：我的方法
 一开始我直接当成二叉树做了，就是递归，递归的参数是新建的new节点对象和要拷贝的节点，然后对左子节点和右子节点做递归。
