@@ -1,52 +1,23 @@
-/*
-快速排序：就是先随便找一个数（比如数组中间的一个数值作为tag，然后使数组左边都比这个数小，右边都比这个数大），然后再递归地对左边和右边再次排序（直到要排序的数组长度小于等于2时，设置基本结束条件）
-快排和归并的一个区别就是快排不需要申请额外空间，那么是如何排序使左边小右边大的呢？想了很久，后来看答案是用两个下标，起始位置是i，终止位置是j，然后如果符合大小关系就逐步i++，j--，向中间缩小，直到不符合关系了，
-就交换i和j的元素，然后继续向中间缩小，直到i不小于j。
-搞完后递归调用自身，分别对左边和右边排序，刚才两个游标最终是j在左i在右，所以调用自身时j和i是两块的中间分界线。
-注意基本结束条件很关键，这里很容易出错，建议这种情况动笔画个图，到最简单的数组长度为2，为3时，看看需要如何处理、是否会出错，总结出基本结束条件。
-*/
+这快排十分的烦人，自己写的边界条件搞半天一直bug（tm的不知道当初是怎么一次写对的，我真是颓了。）
+直接死记了，不然面试也没时间让你在那慢慢试边界。
+就是三个while 两个if，中间那两个while是没等号的，其它都有等号。     然后记着最后那个if也要i++和j++。 选标志元素的话选最左边的还是中间的都没影响，就是分成两部分而已。
 
-
-
-import java.util.*;
-
-public class QuickSort {
-    private static void sort(int []list,int start,int end){
-        int tag = list[(start+end)/2];
-        int i =start;
-        int j =end;
-        //下面这个基础结束条件很关键
-        if(j-i<=1){
-            if(list[i]>list[j]){
-                int x =list[i];
-                list[i]=list[j];
-                list[j]=x;
-            }
-            return;
+void sort(int[]arr,int left,int right){
+    if(left>=right)return;
+    int i=left;int j=right;
+    //int tag=arr[(left+right)/2];
+    int tag=arr[right];
+    while(i<=j){
+        while(arr[i]<tag)i++;
+        while(arr[j]>tag)j--;
+        if(i<=j){
+            int temp=arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+            i++;
+            j--;
         }
-        while(i<j){
-            while(list[i]<tag){
-                i++;
-            }
-            while(list[j]>tag){
-                j--;
-            }
-            if(i<j){
-                int x =list[i];
-                list[i]=list[j];
-                list[j]=x;
-                i++;
-                j--;
-            }
-        }
-        QuickSort.sort(list,start,j);
-        QuickSort.sort(list,i,end);
-
     }
-
-    public static void main(String[] args) {
-        int []list={5,3,4,1,2};
-        QuickSort.sort(list,0,list.length-1);
-        System.out.println(Arrays.toString(list));
-    }
+    sort(arr,left,j);
+    sort(arr,i,right);
 }
