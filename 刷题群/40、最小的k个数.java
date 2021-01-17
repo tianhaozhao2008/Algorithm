@@ -7,7 +7,7 @@
 class Solution {
     public int[] getLeastNumbers(int[] arr, int k) {
         if(k==0)return new int[]{};
-        Queue<Integer>heap=new PriorityQueue<>(k, (i1, i2) -> Integer.compare(i2, i1));
+        Queue<Integer>heap=new PriorityQueue<>(k, (a,b) -> (b-a));
         for(int x:arr){
             if(heap.size()<k)heap.offer(x);
             else{
