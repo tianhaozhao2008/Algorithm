@@ -6,6 +6,7 @@
 所以是O（nlogk）。 我自己想的方法也是用个k的长度的列表来保存最小的k个值，然后遍历，只不过我没有形成堆结构，因此我的复杂度是O（nk）。
 class Solution {
     public int[] getLeastNumbers(int[] arr, int k) {
+        if(k==0)return new int[]{};
         Queue<Integer>heap=new PriorityQueue<>(k, (i1, i2) -> Integer.compare(i2, i1));
         for(int x:arr){
             if(heap.size()<k)heap.offer(x);
@@ -24,13 +25,60 @@ class Solution {
     }
 }
 
+上面是直接用的Java API优先队列，下面是我自己写了一个堆，提供了peek、size、poll、offer方法。下标从0开始，就是上移和下移。
+执行程序的时间是刚才那个的两倍，不过还是在同一个数量级的，说明时间复杂度是没什么变化的，只是可能细节多判断一两步导致的变慢了一点。
+class Heap{
+    List<Integer>list;
+    Heap(){
+        this.list=new ArrayList<>();
+    }
+    int peek(){
+        return list.get(0);
+    }
+    int size(){
+        return list.size();
+    }
+    int poll(){
+        int out=list.get(0);
+        list.set(0,list.get(list.size()-1));
+        list.remove(list.size()-1);
+        int start=0;
+        while((start*2+1<list.size()&&list.get(start)<list.get(start*2+1))||
+                (start*2+2<list.size()&&list.get(start)<list.get(start*2+2))){
+            if(start*2+2<list.size()&&list.get(start*2+2)>list.get(start*2+1)){
+                int temp=list.get(start*2+2);
+                list.set(start*2+2,list.get(start));
+                list.set(start,temp);
+                start=start*2+2;
+            }
+            else{
+                int temp=list.get(start*2+1);
+                list.set(start*2+1,list.get(start));
+                list.set(start,temp);
+                start=start*2+1;
+            }
+        }
+        return out;
+    }
+    void offer(int x){
+        list.add(x);
+        int end=list.size()-1;
+        while((end-1)/2>=0&&list.get((end-1)/2)<list.get(end)){
+            int temp=list.get((end-1)/2);
+            list.set((end-1)/2,list.get(end));
+            list.set(end,temp);
+            end=(end-1)/2;
+        }
+    }
+}
+
 方法2：快排的改进版。每次分成两部分，如果那一部分的长度大于k，那么就在那一部分中继续分；如果那一部分的长度小于k，那么就去另一部分把剩下的几个也找出来。如果那一部分等于
 k，就不分了。
 空间复杂度O（1），时间复杂度期望值是O（n）（即n+n/2+n/4+n/8...即2n），最坏情况是每次分只能分出来一个来，就是O（n*n）。
 方法2的优势就是空间和时间复杂度，但方法二改动了原始数组，且当数据流过大时，比如内存都无法同时存放这么多数据时，方法2这种遍历数组的肯定就不行了。
 快速排序直接背吧，边界条件太麻烦，没时间慢慢试了。。https://github.com/tianhaozhao2008/Algorithm/blob/master/QuickSort.java
 
-这题邪门，最后一个测试用例就是过不了我擦，
+这题邪b门，最后一个测试用例就是过不了我擦，
 class Solution {
     int[]arr;
     public int[] getLeastNumbers(int[] arr, int k) {
