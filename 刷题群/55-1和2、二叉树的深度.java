@@ -57,3 +57,22 @@ class Solution {
         return 1+Math.max(maxDepth(root.left),maxDepth(root.right));
     }
 }
+
+方法2：就是把第一问的求树的高度的方法改一下，使其求树的高度的同时，判断左右子树的高度是否平衡，不平衡就修改一个
+全局变量，然后基本结束条件会去判断那个全局变量。这样后序遍历（自底向上）地去做，就省去了重复地遍历计算树的高度，
+因此只需要遍历一遍，时间复杂度O（n），空间复杂度一样是当退化成链表时的递归深度为O（n）。
+class Solution {
+    boolean res=true;
+    public boolean isBalanced(TreeNode root) {
+        maxDepth(root);
+        return res;
+    }
+    int maxDepth(TreeNode root) {
+        if(root==null)return 0;
+        if(res==false)return 0;
+        int a=maxDepth(root.left);
+        int b=maxDepth(root.right);
+        if(Math.abs(a-b)>1) res=false;
+        return 1+Math.max(a,b);
+    }
+}
