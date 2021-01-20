@@ -14,6 +14,58 @@
 然后7放进去，逆序对再+3，最后得到横跨前后部分的逆序对有7个。
 
 归并排序写了点bug，查了十几分钟才搞定，看来对归并还是不熟，再记一遍归并排序的细节吧，达到快速排序那么熟就行了。
+
+以下先回顾一遍归并排序：和快排一样，传入的参数是数组、左下标和右下标。
+1.然后就是先调用两次自身，中间分界分别是mid和mid+1。因此上面的基本结束条件是left=right
+2.归并；
+（1）两个指针分别指向两个数组的最左侧，然后新成立一个数组，长度是right-left+1
+（2）然后是四个if，前两个if是如果某个指针已经搞完了越界了，就直接填另一个指针的就行然后continue；后两个if就是都没越界时比谁大然后填谁
+（3）把新的数组的值填回去。
+class Solution {
+    public static void main(String[] args) {
+        Solution solution=new Solution();
+        int[]x={2,4,7,3,5};
+        solution.sort(x,0,x.length-1);
+        System.out.println(Arrays.toString(x));
+    }
+    
+    void sort(int[]num,int left,int right){
+        if(left==right)return;
+        int mid=(left+right)/2;
+        sort(num,left,mid);
+        sort(num,mid+1,right);
+        int i=left;
+        int j=mid+1;
+        int[]temp=new int[right-left+1];
+        for(int index=0;index<temp.length;index++){
+            if(i>mid){
+                temp[index]=num[j];
+                j++;
+                continue;
+            }
+            if(j>right){
+                temp[index]=num[i];
+                i++;
+                continue;
+            }
+            if(num[i]<num[j]){
+                temp[index]=num[i];
+                i++;
+            }
+            else{
+                temp[index]=num[j];
+                j++;
+            }
+        }
+
+        for(i=0;i<temp.length;i++){
+            num[left]=temp[i];
+            left++;
+        }
+    }
+}
+
+下面是这道题的答案：
 class Solution {
     public static void main(String[] args) {
         Solution solution=new Solution();
