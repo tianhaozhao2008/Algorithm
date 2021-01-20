@@ -14,5 +14,27 @@
   要使结果不同，我们就可以根据刚才两个数亦或的结果，为1的二进制位数说明这一位它们一个是0一个是1，因此我们只需要让他们对一个数（这一位是1，
   其他位是0）做与（亦或也行）操作，结果就是不同的，即可把它们划分到不同的部分。
   
-  代码如下：（<<是带符号左移（正数的符号位是0），>>是带符号右移，>>>是无符号右移）
+  代码如下：（<<是带符号左移（正数的符号位是0），>>是带符号右移，>>>是无符号右移） 把i左移1位的话就是i=i<<1  
+  然后注意位运算要加括号（比如(x&i)==0）不然优先顺序会乱。 由于与操作之后你也不知道得多少，你只知道是不是0，所以按是不是0来判断。
+  
+  class Solution {
+    public int[] singleNumbers(int[] nums) {
+        if(nums.length==2)return nums;
+        int diff=0;
+        for(int x:nums) diff=diff^x;
+        int i=1;
+        while(true){
+            if((i&diff)!=0)break;
+            i=i<<1;
+        }
+        int a=0;
+        int b=0;
+        for(int x:nums){
+            if((x&i)==0) a=a^x;
+            else b=b^x;
+        }
+        return new int[]{a,b};
+    }
+}
+  
   
