@@ -1,4 +1,4 @@
-方法1：直接用split，时间空间复杂度都是O（n）。
+方法1：面试不要用。直接用split，时间空间复杂度都是O（n）。
 注意点：判断字符串是否相等我又用的==。。。浪费了我20分钟debug擦。
 class Solution {
     public String reverseWords(String s) {
@@ -13,5 +13,23 @@ class Solution {
         if(w.length()!=0) w.deleteCharAt(w.length()-1);
         String result=w.toString();
         return result;
+    }
+}
+
+方法2：一个个遍历字符，然后标记单词的位置，然后添加到StringBuilder中。时间空间都是O（n）。
+class Solution {
+    public String reverseWords(String s) {
+        StringBuilder res=new StringBuilder();
+        int left=-1; int right=-1;
+        for(int i=s.length()-1;i>=0;i--){
+            if(right==-1 && s.charAt(i)!=' ') right=i;
+            if(s.charAt(i)!=' '&& (i==0 ||s.charAt(i-1)==' ')){
+                left=i;
+                res.append(s.substring(left,right+1)+' ');
+                right=-1;
+            }
+        }
+        if(res.length()!=0) res.deleteCharAt(res.length()-1);
+        return res.toString();
     }
 }
