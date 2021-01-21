@@ -1,0 +1,43 @@
+首先想到的就是先遍历，然后二分查找，再加上剪枝优化（如果要查找的数比最大的还大，那么就不找了直接continue）。时间复杂度是O（nlogn）
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        for(int i=0;i<nums.length;i++){
+            if(target-nums[i]>nums[nums.length-1]) continue;
+            int res=search(nums,target-nums[i],i+1,nums.length-1);
+            if(res!=-1) return new int[]{nums[i],nums[res]};
+        }
+        return new int[]{};
+    }
+
+    int search(int[]num,int x,int left,int right){
+        while(left<=right){
+            int mid=(left+right)/2;
+            if(num[mid]==x) return mid;
+            if(x>num[mid]) left=mid+1;
+            else right=mid-1;
+        }
+        return -1;
+    }
+}
+
+题解一种做法是前面一个指针、后面一个指针，然后看两个相加是否为target，如果小于target，就让前面的指针加1，如果大于target，
+就让后面的指针减1。 
+证明正确性：就是设一共有多种状态，比如dp[i][j]就是代表一种状态，i和j分别是左指针和右指针，那么初始左指最左、右指最右就能遍历完所有状态。
+如果dp[i][j]小于target，我们让i+1后，就相当于删去了dp[i][i+1]、dp[i][i+2]、dp[i][i+3]...dp[i][j]这些所有的状态，显然这些状态都比
+dp[i][j]还小，所以它们显然是不符合题意的。
+时间复杂度O（n）。
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int left=0;
+        int right=nums.length-1;
+        while(left<right){
+            if (nums[left]+nums[right]==target){
+                return new int[]{nums[left],nums[right]};
+            }
+            else if(nums[left]+nums[right]>target) right--;
+            else left++;
+        }
+        return new int[]{};
+    }
+}
