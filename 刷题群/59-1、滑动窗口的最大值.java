@@ -10,3 +10,33 @@
 
 1、每次向队列添加元素的时候，先看队列peek的元素是否已经划过了，划过了就出队
 2.队列的peek存储最大值，要保持队列从peek到入口是递减的。因此如果要进入一个元素，就要先把这个队列中比这个元素小的都pop。
+
+这题注意双端队列的api，如果是又要pop又要poll的，就不能push和offer混用的，如果你是push进去的，那么pop和poll都是弹栈；
+如果你是offer进去的，那么pop和poll都是出队。因此，用双向队列专门的方法：
+添加元素：addFirst 、addLast
+查找元素：getFirst 、 getLast
+删除元素：removeFirst、removeLast
+class Solution {
+    public static void main(String[] args) {
+        Solution solution=new Solution();
+        int []x=solution.maxSlidingWindow(new int[]{1,3,1,2},3);
+        System.out.println(Arrays.toString(x));
+
+    }
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(nums.length==0)return new int[]{};
+        int [] res= new int[nums.length+1-k];
+        Deque<Integer> deque=new LinkedList<>();
+        for(int i=0;i<k-1;i++){
+            while(deque.size()!=0 && deque.getLast()<nums[i]) deque.removeLast();
+            deque.addLast(nums[i]);
+        }
+        for(int i=0;i<res.length;i++){
+            while(deque.size()!=0 &&nums[i+k-1]>deque.getLast()) deque.removeLast();
+            deque.addLast(nums[i+k-1]);
+            res[i]=deque.peekFirst();
+            if(deque.peekFirst()==nums[i]) deque.removeFirst();
+        }
+        return res;
+    }
+}
