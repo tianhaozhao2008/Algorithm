@@ -17,12 +17,6 @@
 查找元素：getFirst 、 getLast
 删除元素：removeFirst、removeLast
 class Solution {
-    public static void main(String[] args) {
-        Solution solution=new Solution();
-        int []x=solution.maxSlidingWindow(new int[]{1,3,1,2},3);
-        System.out.println(Arrays.toString(x));
-
-    }
     public int[] maxSlidingWindow(int[] nums, int k) {
         if(nums.length==0)return new int[]{};
         int [] res= new int[nums.length+1-k];
