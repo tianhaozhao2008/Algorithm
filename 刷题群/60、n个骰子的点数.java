@@ -9,3 +9,22 @@ dp[23]代表点数和为23时的情况数量，此时又四种情况，即三个
 对于二维数组dp，我们把n看成每一行的话，那么只要保存一行就行了。n个筛子的话点数和的范围就是n~6n，但是n之前的状态时点数和的范围小，最小时是
 1个筛子和为1时，所以我们的数组的长度直接弄成0~6n好了。
 
+时间复杂度是筛子从0~n，每次都遍历（6n-n）次，每次再扫描6次，一共30n方次，所以时间复杂度是O（n*n）。空间复杂度就是O（n），即申请的那个dp数组。
+class Solution {
+    public double[] dicesProbability(int n) {
+        double[]dp=new double[6*n+1];
+        for(int i=1;i<=6;i++) dp[i]=1;
+
+        for (int j=2;j<=n;j++){  //j个骰子时
+            for(int sum=6*j;sum>=j;sum--){ //sum是点数总和
+                dp[sum]=0;
+                for(int sub=1;sub<=6;sub++){
+                    if(sum-sub>=j-1 && sum-sub<=6*j-6) dp[sum]+= dp[sum-sub];
+                }
+            }
+        }
+        for(int i=n;i<=6*n;i++) dp[i]=dp[i]/Math.pow(6,n);
+        return Arrays.copyOfRange(dp,n,6*n+1);
+    }
+}
+
