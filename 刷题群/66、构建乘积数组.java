@@ -19,3 +19,20 @@ class Solution {
         return res;
     }
 }
+
+优化空间：使空间复杂度变为O（1）。可以发现，我们刚才正着填好left数组后，就可以把这个数组作为结果数组res了，只是现在的结果数组只有左部分的
+乘积，还需要让它乘上右部分，因此就像填写right数组那样，倒着再填一遍这个left数组，让它乘上右边的部分，即可。
+class Solution {
+    public int[] constructArr(int[] a) {
+        if(a.length==0)return new int[]{};
+        int[]left=new int[a.length];
+        left[0]=1;
+        for(int i=1;i<left.length;i++) left[i]=left[i-1]*a[i-1];
+        int right=1;
+        for(int i=left.length-2;i>=0;i--) {
+            right=right*a[i+1];
+            left[i]=left[i]*right;
+        }
+        return left;
+    }
+}
