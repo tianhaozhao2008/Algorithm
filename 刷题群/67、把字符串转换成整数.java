@@ -10,6 +10,7 @@
      因此配套的把字符串转换成数字时，不能从低位开始乘10的次方了，而是应该从高位开始算，才能得到前9位数。
      如果从高位算，那么首先让res=最高位的值，然后每次迭代都让res=res*10+下一位。
 
+时间复杂度O（n），即遍历一遍字符串与StringBuilder再加上相应的判断。空间复杂度O（n），即新弄了一个StringBuilder来承装。
 class Solution {
     public int strToInt(String str) {
         if(str.length()==0) return 0;
