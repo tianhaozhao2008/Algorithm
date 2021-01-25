@@ -8,8 +8,9 @@
 取决于这两个排序的部分的大小，如果先递归调用的那部分长度很小，每次都是1，那么整个递归栈的深度就是O（1）；如果先递归调用的长度很大，那么每次递归
 时压栈后，新的递归一次搞不定继续压栈，那么递归栈就很深，是O（n）。
 而这里的递归栈，由于有return返回值，所以每次调用递归必须压栈，因为当前的函数还没有返回，即没有执行完，当计算完调用自身的那个函数结果后，再把当前
-的弹栈，然后return那个结果，所以空间复杂度最深就是O（n）。如果是无返回值的话，那么如果最后一条语句是调用自身，那么此时就不用压栈（即对应快排的那种
-情况）。
+的弹栈，然后return那个结果，所以空间复杂度最深就是O（n）。如果是无返回值的话，那么如果最后一条语句是调用自身，那么此时就不用压栈（即对应快排的那
+种情况）。
+时间复杂度O（n*n），空间复杂度O（n）。
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if(root.val==p.val||root.val==q.val)return root;
@@ -29,4 +30,27 @@ class Solution {
     }
 }
 
-方法2：
+方法2：时间复杂度优化成O（n）即指遍历一遍。空间复杂度还是O（n）即递归栈的深度。
+思路还是如果root是p和q的祖先节点，要么p和q分别在root的左右子树，要么root==p或q。
+
+然后递归地去做，基本结束条件就是root==p或q，如果不是，就看左子树和右子树中是否包含p或q，如果左右子树返回的都不是空，
+说明p和q分别在左右子树所以return root，如果左右子树的返回值一个空一个不空，那就说明在返回不空的那个子树中找到了祖先节点，
+直接返回那个即可。
+这个递归其实蛮绕的，基本结束条件其实有两个：
+1、root==p或q，这个很容易发现；
+2、还有一个容易忽视的，就是调用自身看左子树和右子树是否包含p或q，如果包含则return root。（在这里调用的自身函数
+视作“子树是否包含p或q”）；而当只有一个子树返回的不是null时，这时的调用自身的函数又视作“子树是否包含祖先节点”。
+~画画图看看运行的过程就更加清晰了~
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null)return null;
+        if(root.val==p.val||root.val==q.val)return root;
+        TreeNode left=lowestCommonAncestor(root.left,p,q);
+        TreeNode right=lowestCommonAncestor(root.right,p,q);
+        if(left!=null &&right!=null)return root;
+        else if(left!=null && right==null) return left;
+        else if(left==null && right!=null) return right;
+        else return null;
+    }
+}
