@@ -21,7 +21,8 @@ class Solution {
 }
 
 方法3：遍历：不用StringBuilder，而是每次新创建一个字符串，然后新拼接起来前两个。
-这种时间空间也是O（n），但这种要创建n次新的字符串、申请内存等，所以慢。
+这种时间空间也是O（n），但这种要创建n次新的字符串、申请内存等，所以慢。（因为底层是char数组，没拼接一次就新开辟一个数组，
+然后遍历一遍挨个拷贝过来。因为String是不可变对象）
 这种更慢，这个执行要70ms，上个执行要4ms，上上个执行要0ms。但是三个占的空间都基本相同。
 class Solution {
     public String reverseLeftWords(String s, int n) {
