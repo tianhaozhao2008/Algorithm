@@ -10,7 +10,7 @@
 2.当这一位是1时，比如前面是432，那么就是0~431这432种情况乘上后面的全排列10的三次方，再加上当前面是432时，后面的就不能超了，比如后面是132，那么后面就只能取0~132这133种情况
 3.当这一位大于1时，比如前面是432，那么就是0~432这433种情况乘上后面的全排列10的三次方（此时不会越界）。
 
-这题注意字符转int时，不能直接Inter.valueOf,而应该先把char用String.valueOf转换成String后再转成Int，如 Integer.valueOf(String.valueOf(num.charAt(i))
+这题注意字符转int时，直接用字符-‘0’
 
 class Solution {
     public int countDigitOne(int n) {
