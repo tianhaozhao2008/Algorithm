@@ -2,6 +2,8 @@
 直接死记了，不然面试也没时间让你在那慢慢试边界。
 就是三个while 两个if，中间那两个while是没等号的，其它都有等号。     然后记着最后那个if也要i++和j++。 选标志元素的话选最左边的还是中间的都没影响，就是分成两部分而已。
 
+三个while 两个if 两个i++和j--
+
 void sort(int[]arr,int left,int right){
     if(left>=right)return;
     int i=left;int j=right;
