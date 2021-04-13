@@ -1,3 +1,5 @@
+就是一个while里面，定义一个mid，然后三个if。    区分快排是while外面设置i和j和mid。
+
 public class Solution {
     int search(int[]num,int x,int left,int right){
         while(left<=right){
